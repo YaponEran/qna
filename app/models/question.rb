@@ -1,9 +1,9 @@
 class Question < ApplicationRecord
 
+  TAG_NAME = %w[art history sport code game]
+
   has_many :answers, dependent: :destroy
 
-  validates :title, presence: true
-  validates :body, presence: true
-  validates :tag, presence: true
-
+  validates :title, :body, :tag, presence: true
+  validates :tag, inclusion: { in: TAG_NAME }
 end
