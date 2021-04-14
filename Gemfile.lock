@@ -190,6 +190,7 @@ GEM
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
@@ -199,6 +200,8 @@ GEM
       railties (>= 3.1)
       slim (>= 3.0, < 5.0)
 >>>>>>> tdd_2
+=======
+>>>>>>> 3560746880c260e1b64a288a092ffcb5b796dc10
     spring (2.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -256,9 +259,12 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers (~> 4.0)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   slim-rails
 >>>>>>> tdd_2
+=======
+>>>>>>> 3560746880c260e1b64a288a092ffcb5b796dc10
   spring
   turbolinks (~> 5)
   tzinfo-data
