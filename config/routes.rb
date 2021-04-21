@@ -6,4 +6,6 @@ Rails.application.routes.draw do
     resources :answers, shallow: true
   end
 
+  get 'user', to: "users#show"
+
 end
