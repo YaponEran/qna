@@ -1,0 +1,18 @@
+nav.navbar aria-label=("main navigation") role="navigation"
+  .navbar-brand
+    = link_to 'QnA', root_path, class: 'navbar-item is-size-1'
+    a.navbar-burger aria-expanded="false" aria-label="menu" data-target="navbarBasicExample" role="button"
+      span aria-hidden="true"
+      span aria-hidden="true"
+      span aria-hidden="true"
+  #navbarBasicExample.navbar-menu
+    .navbar-start
+      = link_to 'Create Question', new_question_path, class: 'navbar-item'
+  .navbar-end
+    span.navbar-item
+      - if user_signed_in?
+        = link_to current_user.email, user_path, class: 'button m-2'
+        = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button'
+      - else
+        = link_to 'Login', new_user_session_path, class: 'button m-2'
+        = link_to 'Register', new_user_registration_path, class: 'button m-2'
