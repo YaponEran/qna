@@ -15,8 +15,4 @@ feature 'User can sign out', %q{
 
     expect(page).to have_content "Signed out successfully."
   end
-
-  scenario 'Unauthenticated user tries to sign out' do
-    
-  end
 end
