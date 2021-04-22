@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_answer, only: %i[show edit destroy]
   before_action :set_question, only: %i[new create]
 
@@ -14,10 +15,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
+    
     if @answer.save
-      redirect_to @question
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      redirect_to @question, notice: "Body can't be blank."
     end
   end
 
@@ -36,6 +39,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body, :point, :accept, :question_id)
+    params.require(:answer).permit(:body)
   end
 end

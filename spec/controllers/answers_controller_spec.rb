@@ -3,8 +3,10 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answer) { create(:answer) }
+  let(:user) { create(:user) }
 
   describe 'GET #show' do
+    before { login(user) }
     before { get :show, params: { id: answer }}
 
     it 'assigns the requested answer to @answer' do
@@ -17,6 +19,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "GET #new" do
+    before { login(user) }
     before { get :new, params: { question_id: question } }
 
     it 'assigns a new Answer to @asnwers' do
@@ -29,6 +32,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "GET #edit" do
+    before { login(user) }
     before { get :edit, params: { id: answer } }
 
     it 'assigns requested answer tp @answer' do
@@ -41,6 +45,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'save a new answer to database' do
         expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
@@ -59,13 +65,15 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        expect(response).to render_template :new
+        expect(response).to redirect_to question_path(question)
       end
     end
   end
 
   describe "GET #destroy" do
+    before { login(user) }
     let!(:answer) { create(:answer) }
+
     it 'deleted the answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
     end
