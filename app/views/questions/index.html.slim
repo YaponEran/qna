@@ -1,8 +1,8 @@
-h1 class='is-size-3'  All Questions (#{@count} found):
+h1 class='is-size-3'  All Questions (#{@questions.count} found):
 
 ul
   -@questions.each do |q|
     li
       p class='is-size-5' #{q.title} - #{q.body}
-      
+
 p= link_to 'Ask question', new_question_path
