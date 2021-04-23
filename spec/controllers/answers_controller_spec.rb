@@ -5,32 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer) }
   let(:user) { create(:user) }
 
-  describe 'GET #show' do
-    before { login(user) }
-    before { get :show, params: { id: answer }}
-
-    it 'assigns the requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end 
-
-    it 'render show view' do
-      expect(response).to render_template :show
-    end
-  end
-
-  describe "GET #new" do
-    before { login(user) }
-    before { get :new, params: { question_id: question } }
-
-    it 'assigns a new Answer to @asnwers' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders new view' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe "GET #edit" do
     before { login(user) }
     before { get :edit, params: { id: answer } }
@@ -65,14 +39,14 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template 'questions/show'
       end
     end
   end
 
   describe "GET #destroy" do
     before { login(user) }
-    let!(:answer) { create(:answer) }
+    let!(:answer) { create(:answer, user: user) }
 
     it 'deleted the answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
@@ -80,7 +54,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'redirects to question show' do
       delete :destroy, params: { id: answer }
-      expect(response).to redirect_to questions_path
+      expect(response).to redirect_to questions_path(answer)
     end
   end
 end

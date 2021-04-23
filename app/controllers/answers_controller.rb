@@ -1,14 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_answer, only: %i[show edit destroy]
-  before_action :set_question, only: %i[new create]
-
-  def show
-  end
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :set_answer, only: %i[edit destroy]
+  before_action :set_question, only: :create
 
   def edit
   end
@@ -20,13 +13,15 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: 'Your answer successfully created.'
     else
-      redirect_to @question, notice: "Body can't be blank."
+      if current_user.author_of?(@answer)
+        render 'questions/show', notice: "Body can't be blank."
+      end
     end
   end
 
   def destroy
-    @answer.destroy
-    redirect_to questions_path, notice: 'Answer was successfully deleted.'
+    @answer.destroy if current_user.author_of?(@answer)
+    redirect_to questions_path(@answer), notice: 'Answer was successfully deleted.'
   end
 
   private
