@@ -5,9 +5,12 @@ feature 'User can see all questions', %q{
   As any user
   I'd like to able to see all questions
 } do
+
+  given(:user) { create(:user) }
+  given!(:questions) { create_list(:question, 3, user: user) }
   
-  scenario 'User tries to visit questions index page' do
+  scenario 'sees all of questions' do
     visit questions_path
-    expect(page).to have_content "All Questions (#{Question.count} found):"
+    questions.each { |question| expect(page).to have_content(question.title) }
   end
 end
