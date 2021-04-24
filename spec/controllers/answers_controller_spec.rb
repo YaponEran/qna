@@ -45,16 +45,41 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe "GET #destroy" do
-    before { login(user) }
-    let!(:answer) { create(:answer, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) } 
 
-    it 'deleted the answer' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+    context 'User is author' do
+      before { sign_in(user) }
+
+      it 'author delete the answer' do
+        delete :destroy, params: { id: answer }
+        expect(assigns(:answer)).to be_destroyed
+      end
+
+      it 'redirects to question show' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to question_path(question)
+      end
     end
 
-    it 'redirects to question show' do
-      delete :destroy, params: { id: answer }
-      expect(response).to redirect_to questions_path(answer)
+    context 'User is not author' do
+      let(:other_user) { create(:user) }
+      before { sign_in(other_user) }
+
+      it 'tries to delete answer' do
+        expect{ delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+      end
+    end
+
+    context 'Unautehticated user' do
+      it 'tries to delete answer' do 
+        expect{ delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+      end
+
+      it 'redirects to login page' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
+
 end

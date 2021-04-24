@@ -18,9 +18,11 @@ feature 'User can delete own question', %q{
   end
 
   scenario 'Authenticated user tries delete some ones question' do
+    pending
   end
 
   scenario 'Unauthenticated user tries to delete question' do
+    pending
   end
 
 end
