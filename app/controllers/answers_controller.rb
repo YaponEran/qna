@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
       redirect_to @question, notice: 'Your answer successfully created.'
     else
       if current_user.author_of?(@answer)
-        render 'questions/show', notice: "Body can't be blank."
+        render 'questions/show'
       end
     end
   end
