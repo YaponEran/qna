@@ -7,16 +7,15 @@ feature 'User can create answer', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user' do
-    given(:question) { create(:question) }
-    
     background do 
       sign_in(user)
       visit question_path(question)
     end 
 
-    scenario 'creates valid question' do
+    scenario 'creates valid data anwers' do
       fill_in 'Body', with: 'Answer body'
       click_on 'Post'
 
@@ -24,10 +23,15 @@ feature 'User can create answer', %q{
       expect(page).to have_content 'Answer body'
     end
 
-    scenario 'create invalid questions' do
+    scenario 'creates with invalid data answers' do
       click_on 'Post'
-      expect(page).to have_content "Body can't be blank."
+      expect(page).to have_content "Body can't be blank"
     end
+  end
+
+  scenario 'Unauthenticated user can not create answer' do
+    visit questions_path(question)
+    expect(page).to_not have_content 'Post'
   end
 
 end
