@@ -12,6 +12,7 @@ feature 'User can delete own question', %q{
   scenario 'Authentiated user tries delete own question' do
     sign_in(user)
     visit question_path(question)
+    expect(page).to have_content question.title
     click_on 'Delete'
 
     expect(page).to_not have_content question.title
