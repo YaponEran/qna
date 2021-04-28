@@ -7,16 +7,16 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
 
-  describe 'Checl authorship' do
+  describe '#author_of?' do
     let(:user) { create(:user) }
+    let(:author_question) { create(:question, user: user) }
+    let(:question) { create(:question) }
 
     it 'current user is author' do
-      question = create(:question, user: user) 
-      expect(user).to be_author_of(question)
+      expect(user).to be_author_of(author_question)
     end
 
     it 'current user is not author' do
-      question = create(:question)
       expect(user).to_not be_author_of(question)
     end
   end

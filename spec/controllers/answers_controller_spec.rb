@@ -28,7 +28,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'created by current user' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(assigns(:answer).user_id).to eq answer.user_id
+        expect(assigns(:answer).user_id).to eq subject.current_user.id
       end
 
       it 'redirects to question show view' do
