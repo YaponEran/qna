@@ -7,7 +7,8 @@ feature 'User can delete answer', %q{
 
   given(:user) { create(:user) }
   given(:other) { create(:user) }
-  given(:answer) { create(:answer) }
+  given!(:question) { create(:question) }
+  given!(:answer) { create(:answer) }
 
   describe 'Authenticated user' do
     background { visit question_path(answer.question) }
@@ -19,6 +20,7 @@ feature 'User can delete answer', %q{
       click_on 'Delete Answer'
   
       expect(current_path).to eq question_path answer.question
+      expect(page).to_not have_content answer.body
       expect(page).to have_content 'Your answer successfully deleted.'
     end
   
