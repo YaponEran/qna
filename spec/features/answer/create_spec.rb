@@ -9,7 +9,7 @@ feature 'User can create answer', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do 
       sign_in(user)
       visit question_path(question)
@@ -20,7 +20,9 @@ feature 'User can create answer', %q{
       click_on 'Post'
 
       expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'Answer body'
+      within '.answers' do
+        expect(page).to have_content 'Answer body'
+      end
     end
 
     scenario 'creates with invalid data answers' do
