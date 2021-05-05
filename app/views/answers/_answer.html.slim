@@ -1,6 +1,6 @@
 li
-    p
-      | #{answer.body}
-      - if current_user&.author_of?(answer)
-        br
-        =link_to 'Delete Answer', answer_path(answer), method: :delete, data: { confirm: 'Confirm' }
+  p
+    | #{answer.body}
+    - if current_user&.author_of?(answer)
+      br
+      = link_to 'Delete Answer', answer_path(answer), method: :delete, data: { confirm: 'Confirm' }
