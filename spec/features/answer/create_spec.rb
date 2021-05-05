@@ -19,7 +19,6 @@ feature 'User can create answer', %q{
       fill_in 'Body', with: 'Answer body'
       click_on 'Post'
 
-      expect(page).to have_content 'Your answer successfully created.'
       within '.answers' do
         expect(page).to have_content 'Answer body'
       end
