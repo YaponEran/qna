@@ -22,6 +22,9 @@
         = f.label :body, 'Your answer'
         = f.text_area :body
         br
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+        br
         = f.submit 'Save'
 
     hr
