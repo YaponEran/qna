@@ -1,5 +1,8 @@
 p class='is-size-1' = @question.title
 p class='subtitle' =  @question.body
+
+= render 'shared/attachments', resource: @question
+
 .container
 
 .answers
