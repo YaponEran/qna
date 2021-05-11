@@ -1,14 +1,10 @@
 p class='is-size-1' = @question.title
 p class='subtitle' =  @question.body
 .container
-  ol
-    -@question.answers.each do |answer|
-      li
-        p
-          | #{answer.body}
-          - if current_user&.author_of?(answer)
-            br
-            =link_to 'Delete Answer', answer_path(answer), method: :delete, data: { confirm: 'Confirm' }
+
+.answers
+  =render @question.answers
+
 
 =render 'answers/form'
 

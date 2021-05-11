@@ -13,18 +13,15 @@ feature 'User can delete answer', %q{
   describe 'Authenticated user' do
     background { visit question_path(answer.question) }
     
-    scenario 'tries to delete own answer' do
+    scenario 'tries to delete own answer', js: true do
       sign_in(answer.user)
-      visit question_path(answer.question)
       expect(page).to have_content answer.body
       click_on 'Delete Answer'
   
-      expect(current_path).to eq question_path answer.question
       expect(page).to_not have_content answer.body
-      expect(page).to have_content 'Your answer successfully deleted.'
     end
   
-    scenario "tries to delete other's answer" do
+    scenario "tries to delete other's answer", js: true do
       sign_in(other)
       expect(page).to_not have_content 'Delete Answer'
     end

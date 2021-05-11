@@ -156,4 +156,59 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:question) { create(:question, user: user) }
+
+    context 'with valid attributes' do
+      before { login(user) }
+
+      it 'changes question attributes' do
+        patch :update, params: {id: question, question: {title: 'new question title', body: 'new question body'}}, format: :js
+        question.reload
+        expect(question.title).to eq 'new question title'
+        expect(question.body).to eq 'new question body'
+      end
+
+      it 'renders update view' do
+        patch :update, params: {id: question, question: {title: 'new question title', body: 'new question body'}}, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      before { login(user) }
+
+      it 'does not change question attributes' do
+        patch :update, params: {id: question, question: attributes_for(:question, :invalid)}, format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'renders update view' do
+        patch :update, params: {id: question, question: attributes_for(:question, :invalid)}, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'Not an author' do
+      let(:not_author) { create(:user) }
+      before { login(:not_author) }
+
+      it 'tries do edit question' do
+        patch :update, params: {id: question, question: {title: 'new question title', body: 'new question body'}}, format: :js
+        question.reload
+        expect(question.title).to_not eq 'new question title'
+        expect(question.body).to_not eq 'new question body'
+      end
+    end
+
+    context 'Unauthorized user' do
+      it 'tries to edit question' do
+        patch :update, params: {id: question, question: {title: 'new question title', body: 'new question body'}}, format: :js
+        question.reload
+        expect(question.title).to_not eq 'new question title'
+        expect(question.body).to_not eq 'new question body'
+      end
+    end
+  end
+
 end
