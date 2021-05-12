@@ -3,8 +3,12 @@ Rails.application.routes.draw do
   root to: "questions#index"
 
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, shallow: true do
+      patch :set_best, on: :member
+    end
   end
+
+  resources :attachments, only: :destroy
 
   get 'user', to: "users#show"
 
