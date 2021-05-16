@@ -3,6 +3,7 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
 
-  validates :title, :body, presence: true
+  has_many_attached :files
 
+  validates :title, :body, presence: true
 end

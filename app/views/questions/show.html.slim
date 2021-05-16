@@ -1,12 +1,16 @@
 p class='is-size-1' = @question.title
 p class='subtitle' =  @question.body
+
+= render 'shared/attachments', resource: @question
+
 .container
 
 .answers
   =render @question.answers
 
 
-=render 'answers/form'
+- if current_user.present?
+  = render 'answers/form'
 
 - if current_user&.author_of?(@question)
   =link_to 'Delete', question_path(@question), method: :delete, data: { confirm: 'Confirm' }
