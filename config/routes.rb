@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :attachments, only: :destroy
   resources :links, only: :destroy
+  resources :rewards, only: :index
 
   get 'user', to: "users#show"
 
