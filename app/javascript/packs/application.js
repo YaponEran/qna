@@ -13,4 +13,6 @@ Turbolinks.start()
 ActiveStorage.start()
 
 require("jquery")
+require("cocoon")
 require("../utilities/answer")
+require("../utilities/question")

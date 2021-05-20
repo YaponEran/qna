@@ -10,6 +10,7 @@ feature "User can add links to question", %q{
   given(:question) { create(:question) }
   given(:url) { 'https://github.com' }
   given(:url2) { 'https://aif-fairs.com' }
+  given(:gist_url) { 'https://gist.github.com/YaponEran/f10759463dfbd9eba45ea543c80ffa39' }
 
   describe 'User ask question' js: true do
     before do
@@ -59,6 +60,19 @@ feature "User can add links to question", %q{
 
       expect(page).to have_link 'SomeLink', href: url
       expect(page).to have_link 'SomeSecondLink', href: url2
+    end
+
+    scenario 'with gist-link', :vcr do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+
+      fill_in 'Link name', with: 'SomeLink'
+      fill_in 'Url', with: gist_url
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'qnatest'
+      expect(page).to_not have_link 'SomeLink', href: gist_url
     end
   end
 

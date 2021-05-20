@@ -10,6 +10,7 @@ feature 'User can add links to answer', %q{
   given!(:question) { create(:question, user: user) }
   given(:url) { 'https://github.com' }
   given(:url2) { 'https://aif-fairs.com' }
+  given(:gist_url) { 'https://gist.github.com/YaponEran/f10759463dfbd9eba45ea543c80ffa39' }
 
 
   describe 'User gives an answer', js: true do
@@ -63,5 +64,16 @@ feature 'User can add links to answer', %q{
       end
     end
 
+    scenario 'with gist-link', :vcr do
+      fill_in 'Body', with: 'My answer'
+
+      fill_in 'Link name', with: 'SomeLink'
+      fill_in 'Url', with: gist_url
+
+      click_on 'Create'
+
+      expect(page).to have_content 'qnatest'
+      expect(page).to_not have_link 'SomeLink', href: gist_url
+    end
   end
 end
