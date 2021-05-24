@@ -9,9 +9,21 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    p.notice= notice
-    p.alert= alert
-    = render 'shared/nav'
-    section.section
+    body
+    .navbar.navbar-default.navbar-static-top.bg-light
       .container
-      = yield
+        button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+        a.navbar-brand href="/"Qna
+        .navbar-collapse.collapse.navbar-responsive-collapse
+          ul.nav.navbar-nav
+            - if user_signed_in?
+              li= link_to "Rewards", rewards_path
+              li= link_to "Log out", destroy_user_session_path, method: :delete
+            - else
+              li= link_to "Sign in", new_user_session_path
+
+    .container
+      .row
+        .col-lg-9
+          = yield
+          

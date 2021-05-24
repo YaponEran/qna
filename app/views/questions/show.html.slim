@@ -5,6 +5,12 @@ p class='subtitle' =  @question.body
 
 .container
 
+ .links
+   p Links:
+   ul
+    = render 'shared/link', resource: @question
+
+
 .answers
   =render @question.answers
 
