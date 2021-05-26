@@ -14,4 +14,5 @@ Rails.application.routes.draw do
 
   get 'user', to: "users#show"
 
+  mount ActionCable.server => '/cable'
 end
