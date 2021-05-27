@@ -18,6 +18,7 @@ require("cocoon")
 require("skim")
 require("../utilities/answer")
 require("../utilities/question")
+require("../utilities/comment")
 
 let App = App || {}
 
