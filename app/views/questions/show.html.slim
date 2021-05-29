@@ -11,6 +11,15 @@ p class='subtitle' =  @question.body
     = render 'shared/link', resource: @question
 
 
+div id ="question_#{@question.id}"
+  .comment-block
+    p Comments:
+    .comments
+      = render @question.comments
+    -if user_signed_in?
+      = render 'comments/form', resource: @question
+
+
 .answers
   =render @question.answers
 

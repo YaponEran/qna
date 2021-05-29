@@ -12,7 +12,14 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+require("action_cable")
 require("jquery")
 require("cocoon")
+require("skim")
 require("../utilities/answer")
 require("../utilities/question")
+require("../utilities/comment")
+
+let App = App || {}
+
+App.cable = ActionCable.createConsumer();

@@ -40,6 +40,40 @@ feature 'User can create answer', %q{
     end
   end
 
+  describe 'Multiple sessions', js: true do
+    scenario 'answer appears on another users page' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'My answer'
+
+        fill_in 'Link name', with: 'SomeLink'
+        fill_in 'Url', with: url
+
+        click_on 'Create'
+
+        within '.answers' do
+          expect(page).to have_content 'My answer'
+          expect(page).to have_link 'SomeLink', href: url
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'My answer'
+          expect(page).to have_link 'SomeLink', href: url
+        end
+      end
+    end
+  end
+
   scenario 'Unauthenticated user can not create answer' do
     visit questions_path(question)
     expect(page).to_not have_content 'Post'
