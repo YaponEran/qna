@@ -78,6 +78,7 @@ group :test do
   gem 'launchy'
   gem 'rspec-validator_spec_helper'
   gem 'vcr'
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
