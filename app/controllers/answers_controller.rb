@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController
   include Voted
-  
+
   before_action :authenticate_user!
   before_action :set_answer, only: %i[edit destroy update]
   before_action :set_question, only: :create
+
+  authorize_resource
 
   def edit
   end
