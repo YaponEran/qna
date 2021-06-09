@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+  use_doorkeeper
+  devise_for :users
   root to: "questions#index"
 
   resources :questions do
